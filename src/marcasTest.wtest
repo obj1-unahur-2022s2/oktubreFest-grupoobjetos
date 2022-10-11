@@ -1,0 +1,12 @@
+import marcas.*
+describe "Test de las jarras"{
+	
+	test "contenido de alcohol de una jarra de cerveza rubia"{
+		const stella = new Rubia(graduacion = 20, litro = 2, lupulo = 4, paisOrigen ="paises bajos")
+		const jarra1 = new Jarra(litros = stella.litro(), marca = stella)
+		
+		assert.equals(0.4, jarra1.contenidoDeAlcohol())
+	}
+	
+	
+}

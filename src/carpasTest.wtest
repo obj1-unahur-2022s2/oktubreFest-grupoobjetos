@@ -1,0 +1,68 @@
+import carpas.*
+import marcas.*
+import personas.*
+
+describe "test de las carpas"{
+	const stella = new Rubia(graduacion = 20, litro = 2, lupulo = 4, paisOrigen ="paises bajos")
+	const carpa1 = new Carpa(limiteDeGente = 1, marcaQueVende = stella, tieneBanda = false)
+	const carpa2 = new Carpa(limiteDeGente = 2, marcaQueVende = stella, tieneBanda = false)
+	const roberto = new Persona(peso = 100, leGustaMusicaTradicional = false, nacionalidad = aleman, aguante = 20)
+	const carlos = new Persona(peso = 120, leGustaMusicaTradicional = true, nacionalidad = aleman, aguante = 20)
+	const quilmes = new Negra(graduacion = 20, litro = 1, lupulo = 4, paisOrigen ="paises bajos", graduacionReglamentaria = 10)
+	const jarra1 = new Jarra(litros = stella.litro(), marca = stella) 
+	const jarra2 = new Jarra(litros = quilmes.litro(), marca = quilmes) 
+
+	test "carpa con su capacidad limite no permite ingresar a una persona mas"{
+		carpa1.agregarPersona(carlos)
+		roberto.comprarJarra(jarra1)
+		roberto.comprarJarra(jarra2)
+		
+		assert.notThat(carpa1.puedeEntrar(roberto))
+	}
+	
+	test "carpa permite ingresar a una persona que no está ebria"{
+		carpa2.agregarPersona(carlos)
+		
+		assert.that(carpa2.puedeEntrar(roberto))
+	}
+	
+	test "carpa no permite ingresar a una persona ebria"{
+		carpa2.agregarPersona(carlos)
+		roberto.comprarJarra(jarra1)
+		roberto.comprarJarra(jarra2)
+		
+		assert.notThat(carpa2.puedeEntrar(roberto))
+	}
+	
+	test "Carpa le sirve una jarra a Roberto"{
+		carpa1.agregarPersona(roberto)
+		carpa1.servirJarraDe_A(1, roberto)
+		
+		assert.equals(1, roberto.jarrasCompradas().size())
+	}
+	
+	test "Carpa no le puede servir una jarra a alguien que no este dentro"{
+		carpa1.servirJarraDe_A(1, roberto)
+		
+		assert.equals(1, roberto.jarrasCompradas().size())
+	}
+	
+	test "Cantidad de ebrios emperdernidos que hay en una carpa"{
+		carpa2.agregarPersona(carlos)
+		carpa2.agregarPersona(roberto)
+		carlos.comprarJarra(jarra1)
+		carlos.comprarJarra(jarra2)
+		roberto.comprarJarra(jarra1)
+		roberto.comprarJarra(jarra2)
+		
+		assert.equals(2, carpa2.ebriosEmperdernidos())
+	}
+	
+	test "Cantidadd de ebrios emperdernidos que hay en una carpa"{
+		carpa2.agregarPersona(carlos)
+		
+		
+		assert.equals(1, carpa2.ebriosEmperdernidos())
+	}
+	
+}

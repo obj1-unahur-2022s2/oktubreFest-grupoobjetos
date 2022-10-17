@@ -1,31 +1,30 @@
 class Jarra{
-	var litros
-	var marca
+	var property litros
+	var property marca
 	
 	method contenidoDeAlcohol() = litros * marca.graduacion() / 100
 }
 
-class Rubia{
+class Cerveza{
 	var property litro
-	var property lupulo
-	var paisOrigen
+	var property lupulo 
+	const property paisOrigen
+}
+
+class Rubia inherits Cerveza{
+	
 	var property graduacion  
 	
 	
 }
 
-class Negra{
-	var property litro
-	var property lupulo
-	const paisOrigen
+class Negra inherits Cerveza{
+	
 	var graduacionReglamentaria
 	var property graduacion = graduacionReglamentaria.min(lupulo * 2) 
 }
 
-class Roja{
-	var property litro
-	var property lupulo 
-	const paisOrigen
+class Roja inherits Cerveza{
 	var graduacionReglamentaria
 	var property graduacion = graduacionReglamentaria.min(lupulo * 2) * 1.25
 }

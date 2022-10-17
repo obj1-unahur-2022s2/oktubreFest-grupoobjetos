@@ -12,11 +12,12 @@ object aleman{
 
 class Persona{
 	var peso
-	const jarrasCompradas = [ ] 
+	const property jarrasCompradas = [ ] 
 	var leGustaMusicaTradicional
 	const property nacionalidad
 	const aguante 
 	
+	method todasTuJarrasSonDe1LitroOMas() = jarrasCompradas.all({j => j.litros() >= 1})
 	method comprarJarra(unaJarra){
 		jarrasCompradas.add(unaJarra)
 	}
@@ -28,12 +29,20 @@ class Persona{
 			self.leGusta(unaCarpa.marcaQueVende()) 
 			and leGustaMusicaTradicional 
 			and unaCarpa.tieneBanda()
-			and unaCarpa.cantPersonas().even()
+			and unaCarpa.cantPersonasDentro().even()
 		}
 		else{
 			self.leGusta(unaCarpa.marcaQueVende()) 
 			and leGustaMusicaTradicional 
 			and unaCarpa.tieneBanda()
 		} 								
-									
+	method podesEntrarEn(carpa) = self.quiereEntrarA(carpa) and carpa.puedeEntrar(self)
+	method ingresarA(carpa){
+		if(self.podesEntrarEn(carpa)){
+			carpa.agregarPersona(self)
+		}
+	}
+	method marcaMasComprada() = jarrasCompradas.max({j => j.marca()})
+	method esPatriota() = jarrasCompradas.all({j => j.marca().paisOrigen() == nacionalidad})
+	method esCompatibleCon(persona) = self.marcaMasComprada() == persona.marcaMasComprada() 								
 }

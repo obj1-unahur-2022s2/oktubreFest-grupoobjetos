@@ -2,13 +2,19 @@ import personas.*
 import marcas.*
 import carpas.*
 describe "test de personas"{
-	
+	const stella = new Rubia(graduacion = 20, litro = 2, lupulo = 4, paisOrigen ="paises bajos")
+	const jarra1 = new Jarra(litros = stella.litro(), marca = stella) 
+	const quilmes = new Negra(graduacion = 20, litro = 1, lupulo = 4, paisOrigen ="paises bajos", graduacionReglamentaria = 10)
+	const jarra2 = new Jarra(litros = quilmes.litro(), marca = quilmes) 
+	const roberto = new Persona(peso = 100, leGustaMusicaTradicional = false, nacionalidad = aleman, aguante = 20)
+	const carpa1 = new Carpa(limiteDeGente = 50, personasDentro = 21, marcaQueVende = stella, tieneBanda = false)
+	const carpa2 = new Carpa(limiteDeGente = 2, marcaQueVende = stella, tieneBanda = true)
+	const carlos = new Persona(peso = 120, leGustaMusicaTradicional = true, nacionalidad = aleman, aguante = 20)
+	const brama = new Roja(graduacionReglamentaria = 5, litro = 2, lupulo = 6, paisOrigen = "argentina")
+	const jarra3 = new Jarra(litros = brama.litro(), marca = brama)
+		
 	test "total de alcohol que ingirió una persona"{
-		const stella = new Rubia(graduacion = 20, litro = 2, lupulo = 4, paisOrigen ="paises bajos")
-		const jarra1 = new Jarra(litros = stella.litro(), marca = stella) 
-		const quilmes = new Negra(graduacion = 20, litro = 1, lupulo = 4, paisOrigen ="paises bajos", graduacionReglamentaria = 10)
-		const jarra2 = new Jarra(litros = quilmes.litro(), marca = quilmes) 
-		const roberto = new Persona(peso = 100, leGustaMusicaTradicional = false, nacionalidad = aleman, aguante = 20)
+		
 		roberto.comprarJarra(jarra1)
 		roberto.comprarJarra(jarra2)
 		
@@ -17,11 +23,7 @@ describe "test de personas"{
 	}
 	
 	test "una persona está ebria"{
-		const stella = new Rubia(graduacion = 20, litro = 2, lupulo = 4, paisOrigen ="paises bajos")
-		const jarra1 = new Jarra(litros = stella.litro(), marca = stella) 
-		const quilmes = new Negra(graduacion = 20, litro = 1, lupulo = 4, paisOrigen ="paises bajos", graduacionReglamentaria = 10)
-		const jarra2 = new Jarra(litros = quilmes.litro(), marca = quilmes) 
-		const roberto = new Persona(peso = 100, leGustaMusicaTradicional = false, nacionalidad = aleman, aguante = 20)
+		
 		roberto.comprarJarra(jarra1)
 		roberto.comprarJarra(jarra2)
 		
@@ -29,17 +31,54 @@ describe "test de personas"{
 	}
 	
 	test "A roberto le gusta una cerveza"{
-		const stella = new Rubia(graduacion = 20, litro = 2, lupulo = 4, paisOrigen ="paises bajos")
-		const roberto = new Persona(peso = 100, leGustaMusicaTradicional = false, nacionalidad = checo, aguante = 20)
+		
 		
 		assert.that(roberto.leGusta(stella))
 	}
 	
 	test "Roberto no quiere entrar a una carpa"{
-		const stella = new Rubia(graduacion = 20, litro = 2, lupulo = 4, paisOrigen ="paises bajos")
-		const carpa1 = new Carpa(limiteDeGente = 50, cantPersonas = 21, marcaQueVende = stella, tieneBanda = false)
-		const roberto = new Persona(peso = 100, leGustaMusicaTradicional = false, nacionalidad = checo, aguante = 20)
 		
 		assert.notThat(roberto.quiereEntrarA(carpa1))
+	}
+	
+	test "Carlos quiere entrar a una carpa"{
+		assert.that(carlos.quiereEntrarA(carpa2))
+	}
+	
+	test "Carlos puede entrar a una carpa sin estar borracho"{
+		assert.that(carlos.podesEntrarEn(carpa2))
+	}
+	
+	test "Carlos no puede entrar a una carpa sin estar borracho"{
+		assert.notThat(carlos.podesEntrarEn(carpa1))
+	}
+	
+	test "Carlos ingresa en una carpa"{
+		carlos.ingresarA(carpa2)
+		
+		assert.that(carpa2.estaDentro(carlos))
+	}
+	
+	test "Carlos no puede ingresar a una carpa"{
+		carlos.ingresarA(carpa1)
+		
+		assert.notThat(carpa1.estaDentro(carlos))
+	}
+	
+	test "Carlos no es compatible con roberto"{
+		roberto.comprarJarra(jarra1)
+		carlos.comprarJarra(jarra2)
+		
+		assert.notThat(roberto.esCompatibleCon(carlos))
+	}
+	
+	test "Carlos y Roberto son compatibles entre si"{
+		roberto.comprarJarra(jarra3)
+		roberto.comprarJarra(jarra3)
+		carlos.comprarJarra(jarra1)
+		carlos.comprarJarra(jarra1)
+		carlos.comprarJarra(jarra3)
+		
+		assert.that(roberto.esCompatibleCon(carlos))
 	}
 }
